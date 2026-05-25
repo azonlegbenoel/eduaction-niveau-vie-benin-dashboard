@@ -285,7 +285,7 @@ with tab_home:
          text=dept_stats['log_dep_percapita'].round(3)
     )
     fig_dept.update_traces(textposition='outside')
-         fig_dept.update_layout(coloraxis_colorbar=dict(
+    fig_dept.update_layout(coloraxis_colorbar=dict(
              title="Log dép.",
              tickfont=dict(color="#c8e0ff"),
              title_font=dict(color="#c8e0ff")
