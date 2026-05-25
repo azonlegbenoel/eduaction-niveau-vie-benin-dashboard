@@ -1063,7 +1063,7 @@ with tab_ml:
         fig_podium = go.Figure(go.Bar(
             x=results_df['Modèle'], y=results_df['R² Test'],
             marker=dict(color=results_df['R² Test'], colorscale='Viridis', showscale=True,
-                        colorbar=dict(title="R² Test", tickfont=dict(color="#c8e0ff"), titlefont=dict(color="#c8e0ff"))),
+                        colorbar=dict(title="Importance", tickfont=dict(color="#c8e0ff"), title_font=dict(color="#c8e0ff"))),
             text=[f"{v:.4f}" for v in results_df['R² Test']], textposition='outside'
         ))
         apply_layout(fig_podium, "Classement des modèles ML — R² sur le jeu de test", height=380)
