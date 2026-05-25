@@ -1,51 +1,30 @@
 # 📊 Éducation et Niveau de Vie des Ménages au Bénin (EHCVM 2021)
 
 ## 📝 À propos du projet
-Ce dépôt héberge un tableau de bord interactif développé avec **Streamlit**. Il s'agit de la composante pratique et visuelle d'un mémoire de recherche analysant l'impact des facteurs éducatifs (alphabétisation, niveau d'instruction du chef de ménage, scolarisation) sur les conditions et le niveau de vie des ménages au Bénin.
+Ce dépôt héberge l'application web interactive (**Dashboard Streamlit**) développée dans le cadre de mon mémoire de fin d'études en Statistique et Économie (ISE 2026). 
 
-L'étude s'appuie sur les données de l'**Enquête Harmonisée sur les Conditions de Vie des Ménages (EHCVM)** réalisée en **2021**.
+L'étude analyse empiriquement l'impact des facteurs éducatifs (années de scolarisation, niveau d'instruction, diplômes) sur les conditions et le niveau de vie des ménages au Bénin, mesuré par le logarithme de la dépense par tête, à partir des données officielles de l'**Enquête Harmonisée sur les Conditions de Vie des Ménages (EHCVM 2021)**.
 
-* **Zone d'étude :** Bénin (Analyses désagrégées par départements et milieu de résidence)
-* **Objectif :** Fournir un outil palpable d'aide à la décision pour évaluer le rôle de l'éducation dans la réduction de la pauvreté.
+* **Auteur :** AZONLEGBE Noël Junior Azonsou
+* **Spécialité :** Ingénieur Statisticien Économiste (Data Science & Marketing)
 
 ---
 
-## 📁 Structure du Dépôt
+## 📁 Structure du Projet
 ```eduaction-niveau-vie-benin-dashboard/
-├── app.py                  # Code principal de l'interface Streamlit
-├── requirements.txt        # Dépendances et bibliothèques Python requises
-├── README.md               # Présentation du projet (ce fichier)
+├── app.py                  # Fichier principal de l'application Streamlit
+├── requirements.txt        # Dépendances et modules Python requis
+├── README.md               # Présentation générale (ce fichier)
 └── data/
-    └── base_ehcvm_education_niveauvie_benin2021.csv  # Base de données EHCVM
+    └── base_ehcvm_education_niveauvie_benin2021.csv  # Base de données
 ```
 
 ---
 
-## 🚀 Organisation du Tableau de Bord
-L'interface web est structurée en plusieurs sections dynamiques :
-1. **🏠 Vue d'Ensemble & Indicateurs clés** : Cartographie et KPIs du niveau de vie moyen (dépenses, taux de pauvreté) et profil éducatif global au Bénin.
-2. **📈 Analyse Qualitative (Profils)** : Analyse des variables catégorielles (Milieu de résidence, sexe du chef de ménage, niveau d'étude maximum atteint) via des graphiques en barres et tris à plat.
-3. **🔢 Analyse Quantitative (Dispersions)** : Étude du volume des dépenses de consommation, corrélations et boîtes à moustaches pour visualiser l'impact direct du diplôme sur le revenu/bien-être.
-4. **🔬 Modélisation Économétrique** : Visualisation des résultats d'un modèle (ex: Régression linéaire ou Logistique de pauvreté) mesurant les déterminants du niveau de vie.
-
----
-
-## 🛠️ Installation et Exécution Locale
-
-Pour lancer ce tableau de bord sur votre machine :
-
-1. **Clonez le dépôt :**
-   ```bash
-   git clone https://github.com
-   cd eduaction-niveau-vie-benin-dashboard
-   ```
-
-2. **Installez les bibliothèques indispensables :**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Exécutez l'application :**
-   ```bash
-   streamlit run app.py
-   ```
+## 🚀 Fonctionnalités du Dashboard
+L'interface est structurée en 5 onglets dynamiques :
+1. **🏠 Accueil** : Indicateurs clés (KPIs), contexte du mémoire et graphiques d'évolution conjointe du niveau de vie selon le profil éducatif.
+2. **🔍 Exploration** : Outil d'analyse descriptive à la demande (Qualitative vs Quantitative) avec tris à plat, indices de concentration (Lorenz), distributions et matrices de corrélations de Pearson.
+3. **📉 Analyse Économétrique** : Tests de spécification complets (Multicolinéarité VIF, Hétéroscédasticité de Breusch-Pagan, Normalité Jarque-Bera, Ramsey RESET) et régressions progressives MCO robustes (HC3).
+4. **🤖 Machine Learning** : Comparaison rigoureuse de 7 algorithmes de régression (Ridge, Lasso, Elastic Net, Random Forest, Gradient Boosting, SVM, XGBoost) avec validation croisée, scores et importance des variables.
+5. **ℹ️ À propos** : Résumé méthodologique et signatures institutionnelles.
