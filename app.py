@@ -283,13 +283,15 @@ with tab_home:
          color='log_dep_percapita',
          color_continuous_scale='Viridis',
          text=dept_stats['log_dep_percapita'].round(3)
-     )
-         fig_dept.update_traces(textposition='outside')
+    )
+    fig_dept.update_traces(textposition='outside')
          fig_dept.update_layout(coloraxis_colorbar=dict(
              title="Log dép.",
              tickfont=dict(color="#c8e0ff"),
              title_font=dict(color="#c8e0ff")
-     ))
+    ))
+
+    
 
     apply_layout(fig_dept, "Log dépense per capita moyenne par département (EHCVM 2021)", height=380)
     st.plotly_chart(fig_dept, use_container_width=True)
