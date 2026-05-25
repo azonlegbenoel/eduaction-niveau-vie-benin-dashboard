@@ -276,7 +276,7 @@ with tab_home:
     # ── Boxplot global par département ──
     st.markdown("<div class='section-title'>🗺️ Niveau de vie moyen par département</div>", unsafe_allow_html=True)
     dept_stats = df_f.groupby('departement_nom')['log_dep_percapita'].mean().sort_values(ascending=False).reset_index()
-         fig_dept = px.bar(
+    fig_dept = px.bar(
          dept_stats,
          x='departement_nom',
          y='log_dep_percapita',
