@@ -560,12 +560,16 @@ with tab_explore:
             fig_corr = go.Figure(data=go.Heatmap(
                 z=corr_matrix.values,
                 x=corr_matrix.columns.tolist(),
-                y=corr_matrix.columns.tolist(),
-                colorscale="RdBu", zmid=0,
-                text=np.round(corr_matrix.values, 2), texttemplate="%{text}",
-                colorbar=dict(title="Corrélation", tickfont=dict(color="#c8e0ff"), titlefont=dict(color="#c8e0ff")),
+                y=corr_matrix.index.tolist(),
+                colorscale='RdBu', zmin=-1, zmax=1,
+                colorbar=dict(
+                    title="r", 
+                    tickfont=dict(color="#c8e0ff"), 
+                    title_font=dict(color="#c8e0ff")  # Correction ici
+                ),
                 hovertemplate="%{y} × %{x}<br>r = %{z:.3f}<extra></extra>"
             ))
+
             apply_layout(fig_corr, "Matrice de corrélation de Pearson — Variables quantitatives clés", height=550)
             fig_corr.update_xaxes(tickangle=35)
             st.plotly_chart(fig_corr, use_container_width=True)
