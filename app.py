@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 # ─── Configuration de la page ────────────────────────────────
 st.set_page_config(
     page_title="Éducation & Niveau de Vie — Bénin",
-    page_icon="🎓",
+    #page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -151,14 +151,14 @@ all_cols = [c for c in df.columns if c != 'hhid']
 with st.sidebar:
     st.markdown("""
     <div style='text-align:center;padding:10px 0 20px 0;'>
-        <div style='font-size:2.8rem;'>🎓</div>
+        <div style='font-size:2.8rem;'></div>
         <div style='font-size:0.95rem;font-weight:700;color:#4ade80;margin-top:4px;'>Éducation & Niveau de Vie</div>
         <div style='font-size:0.7rem;color:#506080;margin-top:2px;'>Bénin 2021 — EHCVM · Mémoire ISE</div>
     </div>
     <hr style='border-color:rgba(74,222,128,0.12);margin-bottom:18px;'>
     """, unsafe_allow_html=True)
 
-    st.markdown("**🔎 Filtres globaux**")
+    st.markdown("** Filtres globaux**")
     sel_dept = st.multiselect(
         "Département", sorted(df['departement_nom'].unique()),
         default=sorted(df['departement_nom'].unique()),
@@ -185,7 +185,7 @@ df_f = df[df['departement_nom'].isin(sel_dept) & df['milieu_urbain'].isin(milieu
 
 # ─── Navigation ──────────────────────────────────────────────
 tab_home, tab_explore, tab_eco, tab_ml, tab_about = st.tabs([
-    "🏠 Accueil", "🔍 Exploration", "📐 Analyse Économétrique", "🤖 Machine Learning", "ℹ️ À propos"
+    " Accueil", " Exploration", " Analyse Économétrique", " Machine Learning", " À propos"
 ])
 
 # ══════════════════════════════════════════════════════════════
@@ -209,10 +209,10 @@ with tab_home:
 
     for col, icon, label, value, delta in [
         (k1, "👥", "Ménages analysés", f"{n_obs:,}", "Observations EHCVM 2021"),
-        (k2, "📊", "Log dép./tête moyen", f"{moy_dep:.3f}", "Variable dépendante"),
+        (k2, "", "Log dép./tête moyen", f"{moy_dep:.3f}", "Variable dépendante"),
         (k3, "📚", "Années de scol. moy.", f"{moy_scol:.1f} ans", "Chef de ménage"),
-        (k4, "🎓", "Chefs instruits", f"{pct_instruit:.1f}%", "Au moins primaire"),
-        (k5, "🏆", "Chefs niveau supérieur", f"{pct_sup:.1f}%", "Universitaire ou +"),
+        (k4, "", "Chefs instruits", f"{pct_instruit:.1f}%", "Au moins primaire"),
+        (k5, "", "Chefs niveau supérieur", f"{pct_sup:.1f}%", "Universitaire ou +"),
     ]:
         col.markdown(f"""
         <div class='kpi-card'>
@@ -236,7 +236,7 @@ with tab_home:
     """, unsafe_allow_html=True)
 
     # ── Graphique central : Log dép. par tête selon le niveau d'instruction ──
-    st.markdown("<div class='section-title'>📈 Évolution conjointe — Niveau de vie selon le niveau d'éducation</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'> Évolution conjointe — Niveau de vie selon le niveau d'éducation</div>", unsafe_allow_html=True)
 
     df_home = df_f[df_f['niveau_instruction_chef'].isin(EDUCATION_ORDER)].copy()
     df_home['educ_label'] = df_home['niveau_instruction_chef'].map(EDUCATION_LABELS)
@@ -274,7 +274,7 @@ with tab_home:
     """, unsafe_allow_html=True)
 
     # ── Boxplot global par département ──
-    st.markdown("<div class='section-title'>🗺️ Niveau de vie moyen par département</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'> Niveau de vie moyen par département</div>", unsafe_allow_html=True)
     dept_stats = df_f.groupby('departement_nom')['log_dep_percapita'].mean().sort_values(ascending=False).reset_index()
     fig_dept = px.bar(
          dept_stats,
@@ -297,7 +297,7 @@ with tab_home:
     st.plotly_chart(fig_dept, use_container_width=True)
 
     # ── Heatmap Éducation × Milieu ──
-    st.markdown("<div class='section-title'>🔥 Heatmap — Niveau de vie selon éducation et milieu de résidence</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-title'> Heatmap — Niveau de vie selon éducation et milieu de résidence</div>", unsafe_allow_html=True)
     df_hm = df_home.copy()
     df_hm['Milieu'] = df_hm['milieu_urbain'].map({0: 'Rural', 1: 'Urbain'})
     pivot_hm = df_hm.groupby(['niveau_instruction_chef', 'Milieu'])['log_dep_percapita'].mean().unstack().reindex(EDUCATION_ORDER)
@@ -330,13 +330,13 @@ with tab_home:
 # ONGLET 2 — EXPLORATION
 # ══════════════════════════════════════════════════════════════
 with tab_explore:
-    st.markdown("<div class='hero-title' style='font-size:1.8rem;'>🔍 Exploration des données</div>", unsafe_allow_html=True)
+    st.markdown("<div class='hero-title' style='font-size:1.8rem;'> Exploration des données</div>", unsafe_allow_html=True)
 
-    subtab_var, subtab_corr = st.tabs(["📊 Statistiques par variable", "🔗 Matrice de corrélation & Heatmap"])
+    subtab_var, subtab_corr = st.tabs([" Statistiques par variable", " Matrice de corrélation & Heatmap"])
 
     # ── Sous-onglet : statistiques par variable ──
     with subtab_var:
-        st.markdown("<div class='section-title'>⚙️ Paramétrage de l'analyse</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Paramétrage de l'analyse</div>", unsafe_allow_html=True)
         st.markdown("""
         <div class='insight-box' style='margin-bottom:16px;'>
             <strong>Instructions</strong> — Sélectionnez d'abord la variable à analyser, puis indiquez son type
@@ -364,12 +364,12 @@ with tab_explore:
             mode_val = freq.iloc[0]["Modalité"]
             n_unique = serie.nunique()
 
-            st.markdown("<div class='section-title'>📊 Statistiques descriptives — Variable qualitative</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'> Statistiques descriptives — Variable qualitative</div>", unsafe_allow_html=True)
             m1, m2, m3 = st.columns(3)
             for col_m, icon, lab, val in [
-                (m1, "🏆", "Mode (valeur la + fréquente)", mode_val),
+                (m1, "", "Mode (valeur la + fréquente)", mode_val),
                 (m2, "🔢", "Nombre de modalités uniques", str(n_unique)),
-                (m3, "📋", "Nb. total d'observations", f"{len(serie):,}"),
+                (m3, "", "Nb. total d'observations", f"{len(serie):,}"),
             ]:
                 col_m.markdown(f"""
                 <div class='kpi-card'>
@@ -379,7 +379,7 @@ with tab_explore:
                 </div>""", unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
-            st.markdown("<div class='section-title'>📋 Tableau de fréquences (Tri à plat)</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'> Tableau de fréquences (Tri à plat)</div>", unsafe_allow_html=True)
             st.dataframe(freq.style.format({"Fréquence (%)": "{:.2f}%", "Fréquence cumulée (%)": "{:.2f}%"}), use_container_width=True, height=300)
 
             gc1, gc2 = st.columns(2)
@@ -407,7 +407,7 @@ with tab_explore:
 
             # Courbe de Lorenz approximative des fréquences
             if n_unique >= 3:
-                st.markdown("<div class='section-title'>📈 Courbe de concentration des modalités</div>", unsafe_allow_html=True)
+                st.markdown("<div class='section-title'> Courbe de concentration des modalités</div>", unsafe_allow_html=True)
                 freq_sorted = freq.sort_values('Effectif', ascending=False).reset_index(drop=True)
                 freq_sorted['cum_pct'] = freq_sorted['Effectif'].cumsum() / freq_sorted['Effectif'].sum() * 100
                 freq_sorted['rank_pct'] = (freq_sorted.index + 1) / len(freq_sorted) * 100
@@ -440,7 +440,7 @@ with tab_explore:
         else:
             # ── STATS QUANTITATIVES ──
             serie = df_f[selected_var].dropna()
-            st.markdown("<div class='section-title'>📊 Statistiques descriptives — Variable quantitative</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'> Statistiques descriptives — Variable quantitative</div>", unsafe_allow_html=True)
 
             s1, s2, s3, s4 = st.columns(4)
             for col_s, icon, lab, val in [
@@ -472,7 +472,7 @@ with tab_explore:
                 </div>""", unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
-            st.markdown("<div class='section-title'>📋 Table descriptive complète</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'> Table descriptive complète</div>", unsafe_allow_html=True)
             desc = serie.describe()
             skew = serie.skew()
             kurt = serie.kurtosis()
@@ -487,7 +487,7 @@ with tab_explore:
             })
             st.dataframe(desc_ext, use_container_width=True, hide_index=True)
 
-            st.markdown("<div class='section-title'>📈 Graphiques</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'> Graphiques</div>", unsafe_allow_html=True)
             g1, g2 = st.columns(2)
             with g1:
                 fig_hist = px.histogram(df_f, x=selected_var, nbins=40, color_discrete_sequence=["#4ade80"])
@@ -525,7 +525,7 @@ with tab_explore:
                 st.plotly_chart(fig_box3, use_container_width=True)
 
             # Densité par département
-            st.markdown("<div class='section-title'>📊 Distribution par département</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-title'> Distribution par département</div>", unsafe_allow_html=True)
             fig_box_dept = px.box(df_f, x='departement_nom', y=selected_var,
                                   color='departement_nom', color_discrete_sequence=px.colors.qualitative.Set3,
                                   points=False)
@@ -549,7 +549,7 @@ with tab_explore:
 
     # ── Sous-onglet : Matrice de corrélation ──
     with subtab_corr:
-        st.markdown("<div class='section-title'>🔗 Matrice de corrélation & Heatmap</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Matrice de corrélation & Heatmap</div>", unsafe_allow_html=True)
         num_cols_corr = [c for c in QUANTI_COLS if c in df_f.columns]
         default_corr = ['log_dep_percapita', 'annees_scol_chef', 'age_chef', 'taille_menage',
                         'score_actifs', 'dep_educ', 'log_dep_totale']
@@ -576,7 +576,7 @@ with tab_explore:
 
             # Corrélation avec log_dep_percapita
             if 'log_dep_percapita' in corr_vars:
-                st.markdown("<div class='section-title'>📊 Corrélations avec le niveau de vie (log dép. per capita)</div>", unsafe_allow_html=True)
+                st.markdown("<div class='section-title'> Corrélations avec le niveau de vie (log dép. per capita)</div>", unsafe_allow_html=True)
                 corr_dep = corr_matrix['log_dep_percapita'].drop('log_dep_percapita').sort_values()
                 colors_bar = ["#ff6b6b" if v < 0 else "#4ade80" for v in corr_dep.values]
                 fig_cbar = go.Figure(go.Bar(
@@ -608,7 +608,7 @@ with tab_explore:
 # ONGLET 3 — ANALYSE ÉCONOMÉTRIQUE
 # ══════════════════════════════════════════════════════════════
 with tab_eco:
-    st.markdown("<div class='hero-title' style='font-size:1.8rem;'>📐 Analyse Économétrique — MCO</div>", unsafe_allow_html=True)
+    st.markdown("<div class='hero-title' style='font-size:1.8rem;'> Analyse Économétrique — MCO</div>", unsafe_allow_html=True)
     st.markdown("""
     <div class='insight-box' style='margin-bottom:20px;'>
         Cette section reproduit intégralement la méthodologie du notebook d'analyse.
@@ -639,12 +639,12 @@ with tab_eco:
         base_modele['education_carre'] = base_modele['annees_scol_chef'] ** 2
 
         # ── Stats descriptives ──
-        st.markdown("<div class='section-title'>📋 Statistiques descriptives — Variables du modèle</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Statistiques descriptives — Variables du modèle</div>", unsafe_allow_html=True)
         desc_eco = base_modele[variables_modele + [target_eco]].describe().T.round(4)
         st.dataframe(desc_eco.style.format("{:.4f}"), use_container_width=True)
 
         # Scatter éducation vs niveau de vie
-        st.markdown("<div class='section-title'>📈 Relation Éducation – Niveau de vie</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Relation Éducation – Niveau de vie</div>", unsafe_allow_html=True)
         sc1, sc2 = st.columns(2)
         with sc1:
             fig_scat = px.scatter(base_modele, x='annees_scol_chef', y=target_eco,
@@ -664,7 +664,7 @@ with tab_eco:
             st.plotly_chart(fig_bx_eco, use_container_width=True)
 
         # ── Test VIF ──
-        st.markdown("<div class='section-title'>🧪 Test 1 — Multicolinéarité (VIF)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Test 1 — Multicolinéarité (VIF)</div>", unsafe_allow_html=True)
         X_vif = base_modele[variables_modele].copy()
         X_vif_const = sm.add_constant(X_vif)
         vif_data = pd.DataFrame()
@@ -698,7 +698,7 @@ with tab_eco:
         modele3_sm = sm.OLS(y_eco, X_eco).fit(cov_type='HC3')
 
         # ── Test Breusch-Pagan ──
-        st.markdown("<div class='section-title'>🧪 Test 2 — Hétéroscédasticité (Breusch-Pagan)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Test 2 — Hétéroscédasticité (Breusch-Pagan)</div>", unsafe_allow_html=True)
         bp_test = het_breuschpagan(modele3_sm.resid, X_eco)
         bp_labels = ['Lagrange Multiplier', 'p-value LM', 'F-statistique', 'p-value F']
         bp_df = pd.DataFrame({'Statistique': bp_labels, 'Valeur': [round(v, 4) for v in bp_test]})
@@ -718,7 +718,7 @@ with tab_eco:
             </div>""", unsafe_allow_html=True)
 
         # ── Test Jarque-Bera ──
-        st.markdown("<div class='section-title'>🧪 Test 3 — Normalité des résidus (Jarque-Bera)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Test 3 — Normalité des résidus (Jarque-Bera)</div>", unsafe_allow_html=True)
         jb_stat, jb_pval = jarque_bera(modele3_sm.resid)
         jb_df = pd.DataFrame({'Statistique': ['JB Statistique', 'p-value', 'Asymétrie (skewness)', 'Aplatissement (kurtosis)'],
                               'Valeur': [round(jb_stat, 4), round(jb_pval, 4),
@@ -739,7 +739,7 @@ with tab_eco:
             </div>""", unsafe_allow_html=True)
 
         # ── MCO — 3 modèles ──
-        st.markdown("<div class='section-title'>📐 Estimations MCO — 3 modèles progressifs</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Estimations MCO — 3 modèles progressifs</div>", unsafe_allow_html=True)
         modele1 = smf.ols("log_dep_percapita ~ annees_scol_chef", data=base_modele).fit(cov_type='HC3')
         modele2 = smf.ols("log_dep_percapita ~ annees_scol_chef + age_chef + taille_menage", data=base_modele).fit(cov_type='HC3')
         modele3 = smf.ols("log_dep_percapita ~ annees_scol_chef + age_chef + taille_menage + score_actifs + acces_electricite + choc_economique + milieu_urbain", data=base_modele).fit(cov_type='HC3')
@@ -783,7 +783,7 @@ with tab_eco:
         m4c.metric("p-value (F)", f"{modele3.f_pvalue:.4f}")
 
         # Graphique des coefficients du modèle 3
-        st.markdown("<div class='section-title'>📊 Coefficients du modèle complet (Modèle 3 — HC3)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Coefficients du modèle complet (Modèle 3 — HC3)</div>", unsafe_allow_html=True)
         params3 = modele3.params.drop('Intercept')
         pvals3 = modele3.pvalues.drop('Intercept')
         ci3 = modele3.conf_int().drop('Intercept')
@@ -829,7 +829,7 @@ with tab_eco:
         """, unsafe_allow_html=True)
 
         # ── Test RESET ──
-        st.markdown("<div class='section-title'>🧪 Test 4 — Spécification (Ramsey RESET)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Test 4 — Spécification (Ramsey RESET)</div>", unsafe_allow_html=True)
         try:
             reset_test = linear_reset(modele3, power=2, use_f=True)
             reset_df = pd.DataFrame({'Statistique': ['F-stat', 'p-value'],
@@ -850,7 +850,7 @@ with tab_eco:
             st.warning(f"Test RESET : {e}")
 
         # ── Modèle non linéaire ──
-        st.markdown("<div class='section-title'>📐 Modèle enrichi — Termes non-linéaires (age², education²)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Modèle enrichi — Termes non-linéaires (age², education²)</div>", unsafe_allow_html=True)
         modele3_nl = smf.ols("log_dep_percapita ~ annees_scol_chef + education_carre + age_chef + age_chef_carre + taille_menage + score_actifs + acces_electricite + choc_economique + milieu_urbain",
                               data=base_modele).fit(cov_type='HC3')
         nl_table = pd.DataFrame({
@@ -868,7 +868,7 @@ with tab_eco:
         m_nl3.metric("AIC", f"{modele3_nl.aic:.1f}")
 
         # ── Diagnostic résidus ──
-        st.markdown("<div class='section-title'>🔍 Diagnostic des résidus (Modèle 3)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Diagnostic des résidus (Modèle 3)</div>", unsafe_allow_html=True)
         residus = modele3.resid
         fitted = modele3.fittedvalues
 
@@ -936,7 +936,7 @@ with tab_eco:
 # ONGLET 4 — MACHINE LEARNING
 # ══════════════════════════════════════════════════════════════
 with tab_ml:
-    st.markdown("<div class='hero-title' style='font-size:1.8rem;'>🤖 Machine Learning</div>", unsafe_allow_html=True)
+    st.markdown("<div class='hero-title' style='font-size:1.8rem;'> Machine Learning</div>", unsafe_allow_html=True)
     st.markdown("""
     <div class='insight-box' style='margin-bottom:20px;'>
         Cette section compare <strong>7 algorithmes ML</strong> pour prédire le niveau de vie des ménages béninois.
@@ -976,10 +976,10 @@ with tab_ml:
 
         # Métriques de préparation
         pm1, pm2, pm3, pm4 = st.columns(4)
-        pm1.markdown(f"<div class='kpi-card'><div class='kpi-icon'>📊</div><div class='kpi-label'>Observations totales</div><div class='kpi-value'>{len(data_ml):,}</div></div>", unsafe_allow_html=True)
-        pm2.markdown(f"<div class='kpi-card'><div class='kpi-icon'>🎓</div><div class='kpi-label'>Train (80%)</div><div class='kpi-value'>{len(X_train)}</div></div>", unsafe_allow_html=True)
-        pm3.markdown(f"<div class='kpi-card'><div class='kpi-icon'>🧪</div><div class='kpi-label'>Test (20%)</div><div class='kpi-value'>{len(X_test)}</div></div>", unsafe_allow_html=True)
-        pm4.markdown(f"<div class='kpi-card'><div class='kpi-icon'>🔧</div><div class='kpi-label'>Variables</div><div class='kpi-value'>{len(variables_ml)}</div></div>", unsafe_allow_html=True)
+        pm1.markdown(f"<div class='kpi-card'><div class='kpi-icon'></div><div class='kpi-label'>Observations totales</div><div class='kpi-value'>{len(data_ml):,}</div></div>", unsafe_allow_html=True)
+        pm2.markdown(f"<div class='kpi-card'><div class='kpi-icon'></div><div class='kpi-label'>Train (80%)</div><div class='kpi-value'>{len(X_train)}</div></div>", unsafe_allow_html=True)
+        pm3.markdown(f"<div class='kpi-card'><div class='kpi-icon'></div><div class='kpi-label'>Test (20%)</div><div class='kpi-value'>{len(X_test)}</div></div>", unsafe_allow_html=True)
+        pm4.markdown(f"<div class='kpi-card'><div class='kpi-icon'></div><div class='kpi-label'>Variables</div><div class='kpi-value'>{len(variables_ml)}</div></div>", unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
 
         # Modèles
@@ -999,7 +999,7 @@ with tab_ml:
             pass
 
         # ── Validation croisée ──
-        st.markdown("<div class='section-title'>🔁 Validation croisée (5-fold)</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Validation croisée (5-fold)</div>", unsafe_allow_html=True)
         kfold = KFold(n_splits=5, shuffle=True, random_state=42)
         cv_rows = []
         for nom, modele in modeles_ml.items():
@@ -1033,7 +1033,7 @@ with tab_ml:
         """, unsafe_allow_html=True)
 
         # ── Entraînement final ──
-        st.markdown("<div class='section-title'>🏆 Évaluation finale sur le jeu de test</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Évaluation finale sur le jeu de test</div>", unsafe_allow_html=True)
         final_results = []
         trained_models = {}
         for nom, modele in modeles_ml.items():
@@ -1079,7 +1079,7 @@ with tab_ml:
         """, unsafe_allow_html=True)
 
         # ── Importance des variables ──
-        st.markdown("<div class='section-title'>🔑 Importance des variables — Meilleur modèle</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Importance des variables — Meilleur modèle</div>", unsafe_allow_html=True)
         if hasattr(best_model_obj, 'feature_importances_'):
             imp = best_model_obj.feature_importances_
             imp_df = pd.DataFrame({'Variable': [labels_ml.get(v, v) for v in variables_ml], 'Importance': imp}).sort_values('Importance', ascending=True)
@@ -1126,7 +1126,7 @@ with tab_ml:
         """, unsafe_allow_html=True)
 
         # ── Prédictions vs Réel ──
-        st.markdown("<div class='section-title'>🎯 Prédictions vs Valeurs réelles</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Prédictions vs Valeurs réelles</div>", unsafe_allow_html=True)
         y_pred_best = best_model_obj.predict(best_X_test)
         pr1, pr2 = st.columns(2)
         with pr1:
@@ -1152,7 +1152,7 @@ with tab_ml:
             st.plotly_chart(fig_res_ml, use_container_width=True)
 
         # ── Comparaison MCO vs ML ──
-        st.markdown("<div class='section-title'>⚖️ Comparaison Économétrie MCO vs Machine Learning</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-title'> Comparaison Économétrie MCO vs Machine Learning</div>", unsafe_allow_html=True)
         import statsmodels.formula.api as smf2
         base_modele_ml = df_f[variables_ml + [target_ml]].dropna().copy()
         m3_comp = smf2.ols("log_dep_percapita ~ annees_scol_chef + age_chef + taille_menage + score_actifs + acces_electricite + choc_economique + milieu_urbain",
@@ -1198,7 +1198,7 @@ with tab_ml:
 # ONGLET 5 — À PROPOS
 # ══════════════════════════════════════════════════════════════
 with tab_about:
-    st.markdown("<div class='hero-title' style='font-size:1.8rem;'>ℹ️ À propos du projet</div>", unsafe_allow_html=True)
+    st.markdown("<div class='hero-title' style='font-size:1.8rem;'> À propos du projet</div>", unsafe_allow_html=True)
 
     a1, a2 = st.columns([1.3, 1])
     with a1:
@@ -1225,16 +1225,16 @@ with tab_about:
     with a2:
         st.markdown("""
         <div class='insight-box'>
-            <strong>🗺️ Zones géographiques couvertes</strong><br><br>
+            <strong> Zones géographiques couvertes</strong><br><br>
             🇧🇯 Alibori · Atacora · Atlantique<br>
             🇧🇯 Borgou · Collines · Couffo<br>
             🇧🇯 Donga · Littoral · Mono<br>
             🇧🇯 Ouémé · Plateau · Zou<br><br>
-            <strong>📅 Année d'enquête :</strong> 2021<br>
+            <strong> Année d'enquête :</strong> 2021<br>
             <strong>👥 Ménages :</strong> 8 032<br>
-            <strong>📊 Variables :</strong> 39 indicateurs<br>
+            <strong> Variables :</strong> 39 indicateurs<br>
             <strong>🏙️ Milieux :</strong> Rural + Urbain<br><br>
-            <strong>🎯 Variable dépendante :</strong><br>
+            <strong> Variable dépendante :</strong><br>
             Log de la dépense per capita annuelle<br><br>
             <strong>📚 Variable d'intérêt :</strong><br>
             Années de scolarité du chef de ménage
