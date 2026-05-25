@@ -208,9 +208,9 @@ with tab_home:
     pct_sup = (df_f['chef_superieur'].mean() * 100)
 
     for col, icon, label, value, delta in [
-        (k1, "👥", "Ménages analysés", f"{n_obs:,}", "Observations EHCVM 2021"),
+        (k1, "", "Ménages analysés", f"{n_obs:,}", "Observations EHCVM 2021"),
         (k2, "", "Log dép./tête moyen", f"{moy_dep:.3f}", "Variable dépendante"),
-        (k3, "📚", "Années de scol. moy.", f"{moy_scol:.1f} ans", "Chef de ménage"),
+        (k3, "", "Années de scol. moy.", f"{moy_scol:.1f} ans", "Chef de ménage"),
         (k4, "", "Chefs instruits", f"{pct_instruit:.1f}%", "Au moins primaire"),
         (k5, "", "Chefs niveau supérieur", f"{pct_sup:.1f}%", "Universitaire ou +"),
     ]:
@@ -1231,12 +1231,12 @@ with tab_about:
             🇧🇯 Donga · Littoral · Mono<br>
             🇧🇯 Ouémé · Plateau · Zou<br><br>
             <strong> Année d'enquête :</strong> 2021<br>
-            <strong>👥 Ménages :</strong> 8 032<br>
+            <strong> Ménages :</strong> 8 032<br>
             <strong> Variables :</strong> 39 indicateurs<br>
             <strong>🏙️ Milieux :</strong> Rural + Urbain<br><br>
             <strong> Variable dépendante :</strong><br>
             Log de la dépense per capita annuelle<br><br>
-            <strong>📚 Variable d'intérêt :</strong><br>
+            <strong> Variable d'intérêt :</strong><br>
             Années de scolarité du chef de ménage
         </div>
         """, unsafe_allow_html=True)
