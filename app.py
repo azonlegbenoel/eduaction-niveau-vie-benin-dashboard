@@ -276,12 +276,21 @@ with tab_home:
     # ── Boxplot global par département ──
     st.markdown("<div class='section-title'>🗺️ Niveau de vie moyen par département</div>", unsafe_allow_html=True)
     dept_stats = df_f.groupby('departement_nom')['log_dep_percapita'].mean().sort_values(ascending=False).reset_index()
-    fig_dept = go.Figure(go.Bar(
-        x=dept_stats['departement_nom'], y=dept_stats['log_dep_percapita'],
-        marker=dict(color=dept_stats['log_dep_percapita'], colorscale='Viridis', showscale=True,
-                    colorbar=dict(title="Log dép.", tickfont=dict(color="#c8e0ff"), titlefont=dict(color="#c8e0ff"))),
-        text=dept_stats['log_dep_percapita'].round(3), textposition='outside'
-    ))
+     fig_dept = px.bar(
+     dept_stats,
+     x='departement_nom',
+     y='log_dep_percapita',
+     color='log_dep_percapita',
+     color_continuous_scale='Viridis',
+     text=dept_stats['log_dep_percapita'].round(3)
+ )
+ fig_dept.update_traces(textposition='outside')
+ fig_dept.update_layout(coloraxis_colorbar=dict(
+     title="Log dép.",
+     tickfont=dict(color="#c8e0ff"),
+     title_font=dict(color="#c8e0ff")
+ ))
+
     apply_layout(fig_dept, "Log dépense per capita moyenne par département (EHCVM 2021)", height=380)
     st.plotly_chart(fig_dept, use_container_width=True)
 
