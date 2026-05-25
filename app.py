@@ -1132,7 +1132,7 @@ with tab_ml:
 
         # ── Comparaison MCO vs ML ──
         st.markdown("<div class='section-title'>⚖️ Comparaison Économétrie MCO vs Machine Learning</div>", unsafe_allow_html=True)
-        import statsmodels.formula.api as smf as smf2
+        import statsmodels.formula.api as smf2
         base_modele_ml = df_f[variables_ml + [target_ml]].dropna().copy()
         m3_comp = smf2.ols("log_dep_percapita ~ annees_scol_chef + age_chef + taille_menage + score_actifs + acces_electricite + choc_economique + milieu_urbain",
                            data=base_modele_ml).fit(cov_type='HC3')
