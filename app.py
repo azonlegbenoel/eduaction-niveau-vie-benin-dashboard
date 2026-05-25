@@ -303,11 +303,17 @@ with tab_home:
     pivot_hm = df_hm.groupby(['niveau_instruction_chef', 'Milieu'])['log_dep_percapita'].mean().unstack().reindex(EDUCATION_ORDER)
     pivot_hm.index = [EDUCATION_LABELS[k] for k in pivot_hm.index]
     fig_hm = go.Figure(go.Heatmap(
-        z=pivot_hm.values, x=pivot_hm.columns.tolist(), y=pivot_hm.index.tolist(),
-        colorscale='YlGn', text=np.round(pivot_hm.values, 3), texttemplate="%{text}",
-        hovertemplate="Instruction: %{y}<br>Milieu: %{x}<br>Log dépense: %{z:.3f}<extra></extra>",
-        colorbar=dict(title="Log dép.", tickfont=dict(color="#c8e0ff"), titlefont=dict(color="#c8e0ff"))
+        z=pivot_hm.values, 
+        x=pivot_hm.columns.tolist(), 
+        y=pivot_hm.index.tolist(),
+        colorscale='Cividis',
+        colorbar=dict(
+            title="Log dép.", 
+            tickfont=dict(color="#c8e0ff"), 
+            title_font=dict(color="#c8e0ff")  # Correction ici
+        )
     ))
+
     apply_layout(fig_hm, "Niveau de vie moyen (log dép./tête) selon l'instruction et le milieu", height=380)
     st.plotly_chart(fig_hm, use_container_width=True)
     st.markdown("""
