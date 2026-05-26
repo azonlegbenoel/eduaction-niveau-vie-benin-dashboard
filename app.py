@@ -99,15 +99,41 @@ div[data-testid="stDataFrameContainer"] { border: 1px solid rgba(74,222,128,0.15
 
 # ─── Chargement des données ───────────────────────────────────
 @st.cache_data
-def load_data():
+def load_default_data():
     df = pd.read_csv("data/base_ehcvm_education_niveauvie_benin2021.csv")
     return df
 
-try:
-    df = load_data()
-except FileNotFoundError:
-    st.error("❌ Fichier CSV introuvable. Vérifiez que `data/base_ehcvm_education_niveauvie_benin2021.csv` est présent.")
-    st.stop()
+@st.cache_data
+def load_uploaded_data(file_bytes, file_name):
+    """Charge un fichier uploadé (.xlsx ou .csv) et vérifie les colonnes obligatoires."""
+    REQUIRED_COLS = [
+        'hhid', 'log_dep_percapita', 'annees_scol_chef',
+        'niveau_instruction_chef', 'departement_nom', 'milieu_urbain',
+        'chef_instruit', 'chef_superieur'
+    ]
+    try:
+        if file_name.lower().endswith(".csv"):
+            df = pd.read_csv(file_bytes)
+        else:
+            df = pd.read_excel(file_bytes)
+        # Vérification des colonnes obligatoires
+        missing = [c for c in REQUIRED_COLS if c not in df.columns]
+        if missing:
+            return None, f"Colonnes manquantes : {', '.join(missing)}"
+        return df, None
+    except Exception as e:
+        return None, str(e)
+
+# ─── Initialisation : charge la base par défaut si pas encore en session ──
+if "df" not in st.session_state:
+    try:
+        st.session_state["df"] = load_default_data()
+        st.session_state["data_source"] = "default"
+    except FileNotFoundError:
+        st.error("❌ Fichier CSV introuvable. Vérifiez que `data/base_ehcvm_education_niveauvie_benin2021.csv` est présent.")
+        st.stop()
+
+df = st.session_state["df"]
 
 # Variables et palettes
 PALETTE = px.colors.qualitative.Set2
@@ -158,7 +184,92 @@ with st.sidebar:
     <hr style='border-color:rgba(74,222,128,0.12);margin-bottom:18px;'>
     """, unsafe_allow_html=True)
 
-    st.markdown("** Filtres globaux**")
+    st.markdown("FILTRES GLOBAUX")
+    # ── Section upload ────────────────────────────────────────
+
+    st.markdown("<hr style='border-color:rgba(74,222,128,0.1);'>", unsafe_allow_html=True)
+
+    st.markdown("Informations pour importer votre base de données")
+
+    st.markdown("""
+
+    <div style='font-size:0.71rem; color:#7090b0; line-height:1.65; margin-bottom:10px;'>
+
+        Vous pouvez remplacer la base par défaut par la vôtre.<br>
+
+ <strong>La base importée doit avoir exactement la même structure</strong>
+
+        que <code>base_ehcvm_education_niveauvie_benin2021.csv</code> :<br>
+
+        colonnes obligatoires — <code>hhid</code>, <code>log_dep_percapita</code>,
+
+        <code>annees_scol_chef</code>, <code>niveau_instruction_chef</code>,
+
+        <code>departement_nom</code>, <code>milieu_urbain</code>,
+
+        <code>chef_instruit</code>, <code>chef_superieur</code>.<br>
+
+        Formats acceptés : <strong>.csv</strong> ou <strong>.xlsx</strong>.
+
+    </div>
+
+    """, unsafe_allow_html=True)
+
+    uploaded_file = st.file_uploader(
+
+        "Choisir un fichier",
+
+        type=["csv", "xlsx"],
+
+        key="uploader_base",
+
+        help="Doit avoir la même structure que la base EHCVM Bénin 2021"
+
+    )
+
+    if uploaded_file is not None:
+
+        df_up, err = load_uploaded_data(uploaded_file, uploaded_file.name)
+
+        if err:
+
+            st.error(f"❌ Erreur : {err}")
+
+        else:
+
+            st.success(f" Fichier valide — {len(df_up):,} lignes · {df_up.shape[1]} colonnes")
+
+            if st.button(" Charger cette base", use_container_width=True):
+
+                st.session_state["df"] = df_up
+
+                st.session_state["data_source"] = "uploaded"
+
+                st.cache_data.clear()
+
+                st.rerun()
+
+    if st.session_state.get("data_source") == "uploaded":
+
+        st.success(" Base importée active")
+
+        if st.button(" Revenir à la base par défaut", use_container_width=True):
+
+            st.session_state["df"] = load_default_data()
+
+            st.session_state["data_source"] = "default"
+
+            st.cache_data.clear()
+
+            st.rerun()
+
+    else:
+
+        st.info(" Base par défaut active (EHCVM 2021)")
+
+    st.markdown("<hr style='border-color:rgba(74,222,128,0.1);'>", unsafe_allow_html=True)
+
+    # ── fin section upload ────────────────────────────────────
     sel_dept = st.multiselect(
         "Département", sorted(df['departement_nom'].unique()),
         default=sorted(df['departement_nom'].unique()),
