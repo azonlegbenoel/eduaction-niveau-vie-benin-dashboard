@@ -195,21 +195,17 @@ with st.sidebar:
 
     <div style='font-size:0.71rem; color:#7090b0; line-height:1.65; margin-bottom:10px;'>
 
-        Vous pouvez remplacer la base par défaut par la vôtre.<br>
-
- <strong>La base importée doit avoir exactement la même structure</strong>
-
-        que <code>base_ehcvm_education_niveauvie_benin2021.csv</code> :<br>
-
-        colonnes obligatoires — <code>hhid</code>, <code>log_dep_percapita</code>,
-
-        <code>annees_scol_chef</code>, <code>niveau_instruction_chef</code>,
-
-        <code>departement_nom</code>, <code>milieu_urbain</code>,
-
-        <code>chef_instruit</code>, <code>chef_superieur</code>.<br>
-
-        Formats acceptés : <strong>.csv</strong> ou <strong>.xlsx</strong>.
+        <strong>
+        Vous pouvez remplacer la base par défaut par la vôtre.
+        La base importée doit avoir exactement la même structure que la base fournie par défaut ; avec les premieres colonnes suivantes : 
+                hhid, log_dep_percapita,
+        
+                annees_scol_chef, niveau_instruction_chef,
+        
+                departement_nom, milieu_residence...
+        
+                Formats acceptés : .csv ou .xlsx
+        </strong>
 
     </div>
 
