@@ -195,17 +195,17 @@ with st.sidebar:
 
     <div style='font-size:0.71rem; color:#7090b0; line-height:1.65; margin-bottom:10px;'>
 
-        <strong>
-        Vous pouvez remplacer la base par défaut par la vôtre.
-        La base importée doit avoir exactement la même structure que la base fournie par défaut ; avec les premieres colonnes suivantes : 
-                hhid, log_dep_percapita,
         
-                annees_scol_chef, niveau_instruction_chef,
+        <strong>Vous pouvez remplacer la base par défaut par la vôtre.</strong>
+        <strong>La base importée doit avoir exactement la même structure que la base fournie par défaut ; avec les premieres colonnes suivantes :</strong>
+        <strong>hhid, log_dep_percapita,</strong>
         
-                departement_nom, milieu_residence...
+        <strong>annees_scol_chef, niveau_instruction_chef,</strong>
         
-                Formats acceptés : .csv ou .xlsx
-        </strong>
+        <strong>departement_nom, milieu_residence...</strong>
+        
+        <strong>Formats acceptés : .csv ou .xlsx</strong>
+        
 
     </div>
 
